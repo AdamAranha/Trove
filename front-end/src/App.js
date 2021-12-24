@@ -9,9 +9,9 @@ function App() {
     const queryString = window.location.search;
     if (queryString) {
       const urlParams = new URLSearchParams(queryString);
-      console.log('The code is: ' + urlParams.get('code'))
-      console.log('The state is: ' + urlParams.get('state'))
-      console.log(typeof urlParams.get('code'));
+      // console.log('The code is: ' + urlParams.get('code'))
+      // console.log('The state is: ' + urlParams.get('state'))
+      // console.log(typeof urlParams.get('code'));
       sendHelp(urlParams.get('code'));
     } else console.log('User not yet authorized');
   }, [])
