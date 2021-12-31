@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <button onClick={async () => {
-          const response = await fetch('https://adamaranha.com/server', {
+          const response = await fetch('https:www.adamaranha.com/server/', {
             method: 'GET'
           }).then(r => r.json());
           console.log(response);
