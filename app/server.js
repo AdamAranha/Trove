@@ -1,11 +1,28 @@
 const express = require('express');
 const app = express();
+const mysql = require('mysql2');
 const PORT = process.env.PORT || 3001;
 const cors = require('cors');
 const fetch = require('node-fetch');
+require('dotenv').config();
 
-const CLIENT_ID = 'eVR6XO9MRO7sTjbt72Fn8w';
-const CLIENT_SECRET = 'Myz1KXXYJVRTx1-klXYwu29ztgIeGQ';
+const connection = mysql.createConnection({
+    host: '104.152.168.44',
+    user: 'adamaran_adam',
+    password: '3Ardiadcm',
+    database: 'adamaran_troveDB',
+    port: '3306'
+})
+
+connection.connect((err) => {
+    if (err) throw err;
+    console.log(`connected as id ${connection.threadId}`);
+    // connection.end();
+});
+connection.query('SELECT * FROM Users', (error, results) => {
+    if (error) throw error;
+    console.log(results);
+})
 
 var access_token;
 
@@ -17,14 +34,14 @@ app.get('/', (req, res) => {
 })
 
 app.get('/server', (req, res) => {
-    res.send({ message: 'Success at I dont know how this works' });
+    res.send({ message: process.env.CLIENT_ID });
     console.log('It works?')
 })
 
 app.get('/server/trove/auth', (req, res) => {
     const code = req.headers.code;
     console.log(code);
-    const credentials = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64");
+    const credentials = Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString("base64");
     const form = new URLSearchParams({
         grant_type: "authorization_code",
         code,
