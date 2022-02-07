@@ -46,10 +46,7 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
         const { email, password } = credentials;
         const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         const regexPassword = /^(.{0,7}|[^A-Z]{1,}|[^a-z]{1,}|[^\d]{1,})$|[\s]/
-        if (!regexEmail.test(email)) {
-            setEmailErr('*Please enter a valid email address.');
-
-        }
+        if (!regexEmail.test(email)) setEmailErr('*Please enter a valid email address.');
         if (regexPassword.test(password)) setPasswordErr('*Password must be atleast 8 characters, and contain atleast 1 uppercase letter, 1 lowercase letter, and 1 number.');
         // Checks for special characters
         // const regex2 = /[^((0-9)|(a-z)|(A-Z)|\s)]/
@@ -88,21 +85,20 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
             h-[500px] w-[350px] p-7
             2xl:h-[800px] 2xl:w-[700px] 2xl:p-20'>
                 <h2 className='text-4xl font-medium mb-2'>Log in.</h2>
-                <p className='hidden'>Enter your email address and a password to create an account.</p>
-                <form className='flex flex-col'>
-                    <label className=''>Email</label>
-                    <input className='p-2 rounded text-slate-800' name='email' onChange={event => handleChange(event)} value={credentials.email} />                    <p>
-
-                    </p>
-                    <label className=''>Password</label>
-                    <div>
-                        <input className='p-2 rounded text-slate-800 w-full' name='password' type={showPassword ? 'text' : 'password'} onChange={(event) => handleChange(event)} value={credentials.password} />                    </div>
-                    <p className=''>
-
-                    </p>
-                    <button className='bg-emerald-500 hover:bg-emerald-600 text-slate-800  font-semibold rounded p-2'>Log in</button>
+                <p className='hidden 2xl:block'>Enter your email address and a password to create an account.</p>
+                <form className='flex flex-col' onSubmit={(event) => handleSubmit(event)}>
+                    <label className='mb-1'>Email</label>
+                    <input className='p-2 rounded text-slate-800 w-64' name='email' onChange={event => handleChange(event)} value={credentials.email} />
+                    <p className='mb-7 text-red-400'> {emailErr} </p>
+                    <label className='mb-1'>Password</label>
+                    <div className='relative'>
+                        <input className='p-2 rounded text-slate-800 w-full' name='password' type={showPassword ? 'text' : 'password'} onChange={(event) => handleChange(event)} value={credentials.password} />
+                        <img className='absolute h-8 w-8 top-1 right-2' src={showPassword ? eye : eyeOff} alt={showPassword ? 'Password is visible' : 'Password is not visible'} onClick={() => setShowPassword(!showPassword)} />
+                    </div>
+                    <p className='mb-7 text-red-400'> {passwordErr} </p>
+                    <button className='bg-emerald-500 hover:bg-emerald-600 text-slate-800  font-semibold rounded p-2' type='submit'>Log in</button>
                 </form>
-                <p className=''>Don't have an account?<span className='cursor-pointer font-semibold text-emerald-400 hover:text-emerald-500' onClick={changePage}> Create an account</span></p>
+                <p className='text-sm text-center'>Don't have an account?<span className='cursor-pointer font-semibold text-emerald-400 hover:text-emerald-500' onClick={changePage}> Create an account</span></p>
             </div>
             : null
     )
