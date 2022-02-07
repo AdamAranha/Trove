@@ -81,24 +81,24 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
 
     return (
         showLogin ?
-            <div className='bg-slate-800 text-yellow-50 self-center justify-self-center rounded
-            h-[500px] w-[350px] p-7
+            <div className='flex flex-col text-yellow-50 p-7 rounded justify-center 
+           2xl:bg-slate-800
             2xl:h-[800px] 2xl:w-[700px] 2xl:p-20'>
                 <h2 className='text-4xl font-medium mb-2'>Log in.</h2>
-                <p className='hidden 2xl:block'>Enter your email address and a password to create an account.</p>
+                <p className='text-sm mb-2 2xl:block'>Enter your email address and a password to create an account.</p>
                 <form className='flex flex-col' onSubmit={(event) => handleSubmit(event)}>
                     <label className='mb-1'>Email</label>
-                    <input className='p-2 rounded text-slate-800 w-64' name='email' onChange={event => handleChange(event)} value={credentials.email} />
+                    <input className='p-2 rounded text-slate-800 w-full' name='email' onChange={event => handleChange(event)} value={credentials.email} />
                     <p className='mb-7 text-red-400'> {emailErr} </p>
                     <label className='mb-1'>Password</label>
-                    <div className='relative'>
-                        <input className='p-2 rounded text-slate-800 w-full' name='password' type={showPassword ? 'text' : 'password'} onChange={(event) => handleChange(event)} value={credentials.password} />
+                    <div className='relative w-fit'>
+                        <input className='p-2 rounded text-slate-800 w-64' name='password' type={showPassword ? 'text' : 'password'} onChange={(event) => handleChange(event)} value={credentials.password} />
                         <img className='absolute h-8 w-8 top-1 right-2' src={showPassword ? eye : eyeOff} alt={showPassword ? 'Password is visible' : 'Password is not visible'} onClick={() => setShowPassword(!showPassword)} />
                     </div>
                     <p className='mb-7 text-red-400'> {passwordErr} </p>
-                    <button className='bg-emerald-500 hover:bg-emerald-600 text-slate-800  font-semibold rounded p-2' type='submit'>Log in</button>
                 </form>
                 <p className='text-sm text-center'>Don't have an account?<span className='cursor-pointer font-semibold text-emerald-400 hover:text-emerald-500' onClick={changePage}> Create an account</span></p>
+                <button className='sticky b-0 w-full bg-emerald-500 self-center hover:bg-emerald-600 text-slate-800  font-semibold rounded p-2'>Log in</button>
             </div>
             : null
     )
