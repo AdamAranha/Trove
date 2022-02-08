@@ -21,14 +21,6 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
         passErr: ''
     });
     const [showPassword, setShowPassword] = useState(false);
-    const [showPassVal, setShowPassVal] = useState(false);
-    const [password, setPassword] = useState({
-        LENGTH: false,
-        UPPERCASE: false,
-        LOWERCASE: false,
-        NUMBER: false,
-        WHITESPACE: false
-    })
 
     function changePage(): void {
         setShowLogin(false);
@@ -36,14 +28,11 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
         setCredentials({ email: '', password: '' });
         setShowPassword(false);
         setValErr({ emailErr: '', passErr: '' })
+
     }
 
     function handleChange(event: any): void {
         const { name, value } = event.target;
-        const regexLength = /^.{0,7}$/
-        const regexUpper = /^[^A-Z]{1,}$/
-        const regexLower = /^[^a-z]{1,}$/
-        const regexNumber = /^[^\d]{1,}$/
 
         setCredentials(prevInput => {
             return {
@@ -51,24 +40,6 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
                 [name]: value
             }
         });
-        if (regexLength.test(value) || value === '') { validations('LENGTH', false) } else { validations('LENGTH', true) };
-        if (regexUpper.test(value) || value === '') { validations('UPPERCASE', false) } else { validations('UPPERCASE', true) }
-        if (regexLower.test(value) || value === '') { validations('LOWERCASE', false) } else { validations('LOWERCASE', true) }
-        if (regexNumber.test(value) || value === '') { validations('NUMBER', false) } else { validations('NUMBER', true) }
-        if ([...value].includes(' ') || value === '') { validations('WHITESPACE', false) } else { validations('WHITESPACE', true) }
-    }
-
-    // function test(params: any) {
-    //     if ([params.regex].test(value) || value === '') { }
-    // }
-
-    function validations(name: string, value: boolean) {
-        setPassword(prevInput => {
-            return {
-                ...prevInput,
-                [name]: value
-            }
-        })
     }
 
     function handleSubmit(event: any): void {
@@ -81,7 +52,7 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
             setValErr(prevInput => {
                 return {
                     ...prevInput,
-                    emailErr: '*Please enter a valid email.'
+                    emailErr: '*Username/Password incorrect.'
                 }
             });
         }
@@ -89,7 +60,7 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
             setValErr(prevInput => {
                 return {
                     ...prevInput,
-                    passErr: '*Please enter a valid password.'
+                    passErr: '*Username/Password incorrect.'
                 }
             });
         }
@@ -110,23 +81,13 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
                     <p className='h-1 mb-7 text-red-400'>{valErr.emailErr}</p>
                     <label className='mb-1'>Password</label>
                     <div className='relative w-full'>
-                        {showPassVal ?
-                            <div className='absolute w-full h-48 -top-56 bg-slate-700 rounded p-3 leading-7'>
-                                <p className={`indent-4 ${password.LENGTH ? 'text-emerald-400' : 'text-red-400'}`}>At least 8 characters in length</p>
-                                <p className={`indent-4 ${password.WHITESPACE ? 'text-emerald-400' : 'text-red-400'}`}>No whitespaces (0-9)</p>
-                                <p>Must Contain:</p>
-                                <p className={`indent-4 ${password.UPPERCASE ? 'text-emerald-400' : 'text-red-400'}`}>An Upper case letter (A-Z)</p>
-                                <p className={`indent-4 ${password.LOWERCASE ? 'text-emerald-400' : 'text-red-400'}`}>A Lower case letter (1-z)</p>
-                                <p className={`indent-4 ${password.NUMBER ? 'text-emerald-400' : 'text-red-400'}`}>A number</p>
-                            </div>
-                            : null}
-                        <input className='p-2 rounded text-slate-800 w-full' name='password' type={showPassword ? 'text' : 'password'} onChange={(event) => handleChange(event)} onFocus={() => setShowPassVal(true)} onBlur={() => setShowPassVal(false)} value={credentials.password} />
+                        <input className='p-2 rounded text-slate-800 w-full' name='password' type={showPassword ? 'text' : 'password'} onChange={(event) => handleChange(event)} value={credentials.password} />
                         <img className='absolute h-8 w-8 top-1 right-2' src={showPassword ? eye : eyeOff} alt={showPassword ? 'Password is visible' : 'Password is not visible'} onClick={() => setShowPassword(!showPassword)} />
                     </div>
                     <p className='h-1 mb-7 text-red-400'>{valErr.passErr}</p>
                 </form>
                 <button className='sticky b-0 w-full mb-2 bg-emerald-500 self-center hover:bg-emerald-600 text-slate-800  font-semibold rounded p-2' onClick={handleSubmit}>Log in</button>
-                <p className='text-center'>Don't have an account?<span className='cursor-pointer font-semibold text-emerald-400 hover:text-emerald-500' onClick={changePage}> Create an account</span></p>
+                <p className='text-center mb-6'>Don't have an account?<span className='cursor-pointer font-semibold text-emerald-400 hover:text-emerald-500' onClick={changePage}> Create an account</span></p>
             </div>
             : null
     )
