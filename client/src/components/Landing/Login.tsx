@@ -21,7 +21,7 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
         passErr: ''
     });
     const [showPassword, setShowPassword] = useState(false);
-    const [showPassVal, setShowPassVal] = useState(true);
+    const [showPassVal, setShowPassVal] = useState(false);
     const [password, setPassword] = useState({
         LENGTH: false,
         UPPERCASE: false,
@@ -44,7 +44,6 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
         const regexUpper = /^[^A-Z]{1,}$/
         const regexLower = /^[^a-z]{1,}$/
         const regexNumber = /^[^\d]{1,}$/
-        const regexWhitespace = /^\s$/
 
         setCredentials(prevInput => {
             return {
@@ -58,6 +57,10 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
         if (regexNumber.test(value) || value === '') { validations('NUMBER', false) } else { validations('NUMBER', true) }
         if ([...value].includes(' ') || value === '') { validations('WHITESPACE', false) } else { validations('WHITESPACE', true) }
     }
+
+    // function test(params: any) {
+    //     if ([params.regex].test(value) || value === '') { }
+    // }
 
     function validations(name: string, value: boolean) {
         setPassword(prevInput => {
