@@ -7,11 +7,11 @@ const fetch = require('node-fetch');
 require('dotenv').config();
 
 const connection = mysql.createConnection({
-    host: '104.152.168.44',
-    user: 'adamaran_adam',
-    password: '3Ardiadcm',
-    database: 'adamaran_troveDB',
-    port: '3306'
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    port: process.env.PORT
 })
 
 connection.connect((err) => {
