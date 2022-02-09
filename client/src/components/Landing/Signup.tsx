@@ -83,7 +83,7 @@ const Signup: React.FC<Props> = ({ showSignup, setShowSignup, setShowLogin }) =>
             setValErr(prevInput => {
                 return {
                     ...prevInput,
-                    emailErr: '*Username/Password incorrect.'
+                    emailErr: '*Please enter a valid email address.'
                 }
             });
         }
@@ -91,7 +91,7 @@ const Signup: React.FC<Props> = ({ showSignup, setShowSignup, setShowLogin }) =>
             setValErr(prevInput => {
                 return {
                     ...prevInput,
-                    passErr: '*Username/Password incorrect.'
+                    passErr: '*Please enter a valid password.'
                 }
             });
         } else console.log('wtf')
