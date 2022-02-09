@@ -5,24 +5,26 @@ const PORT = process.env.PORT || 3001;
 const cors = require('cors');
 const fetch = require('node-fetch');
 require('dotenv').config();
+const User = require('./models/User');
+const sequelize = require('./util/db');
 
-const connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    port: process.env.PORT
-})
+// const connection = mysql.createConnection({
+//     host: process.env.HOST,
+//     user: process.env.USER,
+//     password: process.env.PASSWORD,
+//     database: process.env.DATABASE,
+//     port: process.env.PORT
+// })
 
-connection.connect((err) => {
-    if (err) throw err;
-    console.log(`connected as id ${connection.threadId}`);
-    // connection.end();
-});
-connection.query('SELECT * FROM Users', (error, results) => {
-    if (error) throw error;
-    console.log(results);
-})
+// connection.connect((err) => {
+//     if (err) throw err;
+//     console.log(`connected as id ${connection.threadId}`);
+//     // connection.end();
+// });
+// connection.query('SELECT * FROM Users', (error, results) => {
+//     if (error) throw error;
+//     console.log(results);
+// })
 
 var access_token;
 
@@ -85,4 +87,9 @@ app.get('/server/trove/auth', (req, res) => {
     // }(1))
 })
 
-app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`))
+sequelize.sync().then((res) => {
+    console.log('Result from sql is: ', res)
+    app.listen(PORT, () => {
+        console.log(`Listening on http://localhost:${PORT}`)
+    });
+});
