@@ -77,13 +77,13 @@ const Signup: React.FC<Props> = ({ showSignup, setShowSignup, setShowLogin }) =>
         event.preventDefault();
         setValErr({ emailErr: '', passErr: '' })
         const { email, password } = credentials;
-        const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}\.[0-9]{1, 3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        const regexPassword = /^(.{0, 7}|[^A-Z]{1,}|[^a-z]{1,}|[^\d]{1,})$|[\s]/
+        const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        const regexPassword = /^(.{0,7}|[^A-Z]{1,}|[^a-z]{1,}|[^\d]{1,})$|[\s]/
         if (!regexEmail.test(email)) {
             setValErr(prevInput => {
                 return {
                     ...prevInput,
-                    emailErr: '*Please enter a valid email.'
+                    emailErr: '*Username/Password incorrect.'
                 }
             });
         }
@@ -91,13 +91,12 @@ const Signup: React.FC<Props> = ({ showSignup, setShowSignup, setShowLogin }) =>
             setValErr(prevInput => {
                 return {
                     ...prevInput,
-                    passErr: '*Please enter a valid password.'
+                    passErr: '*Username/Password incorrect.'
                 }
             });
-        }
+        } else console.log('wtf')
         // Checks for special characters
         // const regex2 = /[^((0-9)|(a-z)|(A-Z)|\s)]/
-
     }
 
     return (
