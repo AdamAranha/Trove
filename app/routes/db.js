@@ -22,19 +22,17 @@ router.get('/findUser', async (req, res) => {
 })
 
 router.post('/createUser', async (req, res) => {
-    const { user, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword.length)
-    console.log(`Type of hash is ${typeof hashedPassword}`);
-
-    const newUser = await createUser(user, hashedPassword);
-    res.send(newUser.id ? { message: 'User created' } : { message: 'User was not created' });
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const newUser = await createUser(req.body.user, hashedPassword);
+    res.send(newUser.id ? { result: true } : { result: false });
 })
 
 router.post('/login', async (req, res) => {
-    const { password } = (await findUser(req.body.user))[0].dataValues;
-    console.log(await bcrypt.compare(req.body.password, password));
-    res.send(await bcrypt.compare(req.body.password, password) ? { message: 'Login Successful' } : { message: 'Login Unsuccessful' })
+    // Checks if user submitted email exists in database
+    if ((await findUser(req.body.user))[0]) {
+        // Compares user submitted password and password in the database corresponding with user submitted email
+        res.send(await bcrypt.compare(req.body.password, (await findUser(req.body.user))[0].dataValues.password) ? { result: true } : { result: false })
+    } else { res.send({ result: false }) }
 })
 
 module.exports = router
