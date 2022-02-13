@@ -42,28 +42,27 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
         });
     }
 
-    function handleSubmit(event: any): void {
+    async function handleSubmit(event: any): Promise<any> {
         event.preventDefault();
-        setValErr({ emailErr: '', passErr: '' })
+        setValErr({ emailErr: '', passErr: '' });
         const { email, password } = credentials;
-        const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        const regexPassword = /^(.{0,7}|[^A-Z]{1,}|[^a-z]{1,}|[^\d]{1,})$|[\s]/
-        if (!regexEmail.test(email)) {
-            setValErr(prevInput => {
-                return {
-                    ...prevInput,
-                    emailErr: '*Username/Password incorrect.'
-                }
-            });
+
+        async function login() {
+            const response = await fetch('http://localhost:3001/db/login', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    'user': email,
+                    'password': password
+                })
+            }).then(r => r.json());
+            return response;
         }
-        if (regexPassword.test(password)) {
-            setValErr(prevInput => {
-                return {
-                    ...prevInput,
-                    passErr: '*Username/Password incorrect.'
-                }
-            });
-        }
+
+        const test = await login();
+        console.log(test);
+
+        // if (await checkIfUserExists()) { }
+
         // Checks for special characters
         // const regex2 = /[^((0-9)|(a-z)|(A-Z)|\s)]/
     }
@@ -71,10 +70,10 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
     return (
         showLogin ?
             <div className='flex flex-col text-yellow-50 p-7 rounded justify-center 
-           2xl:bg-slate-800
-            2xl:h-[800px] 2xl:w-[700px] 2xl:p-20 2xl:justify-self-center 2xl:self-center'>
-                <h2 className='text-4xl 2xl:text-5xl font-medium mb-2'>Log in.</h2>
-                <p className='mb-7 2xl:block'>Enter your email address and a password to create an account.</p>
+           sm:bg-slate-800
+            sm:h-[800px] sm:w-[700px] sm:p-20 sm:justify-self-center sm:self-center'>
+                <h2 className='text-4xl sm:text-5xl font-medium mb-2'>Log in.</h2>
+                <p className='mb-7 sm:block'>Enter your email address and a password to create an account.</p>
                 <form className='flex flex-col' onSubmit={(event) => handleSubmit(event)}>
                     <label className='mb-1'>Email</label>
                     <input className='p-2 rounded text-slate-800 w-full' name='email' onChange={event => handleChange(event)} value={credentials.email} />
