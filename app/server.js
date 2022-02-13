@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
-const mysql = require('mysql2');
 const PORT = process.env.PORT || 3001;
 const cors = require('cors');
 const fetch = require('node-fetch');
 require('dotenv').config();
 const User = require('./models/User');
-const sequelize = require('./util/db');
+const sequelize = require('./util/dbConfig');
+const bodyParser = require('body-parser');
 
 // const connection = mysql.createConnection({
 //     host: process.env.HOST,
@@ -31,6 +31,10 @@ var access_token;
 app.use(cors({
     origin: '*'
 }));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/db', require('./routes/db.js'));
+app.use('/reddit', require('./routes/reddit'));
 
 app.get('/', (req, res) => {
 })
@@ -88,7 +92,7 @@ app.get('/server/trove/auth', (req, res) => {
 })
 
 sequelize.sync().then((res) => {
-    console.log('Result from sql is: ', res)
+    // console.log('Result from sql is: ', res)
     app.listen(PORT, () => {
         console.log(`Listening on http://localhost:${PORT}`)
     });
