@@ -58,8 +58,8 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
             return response;
         }
 
-        const test = await login();
-        console.log(test);
+        const { result } = await login();
+        console.log(result);
 
         // if (await checkIfUserExists()) { }
 

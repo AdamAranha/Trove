@@ -108,7 +108,6 @@ const Signup: React.FC<Props> = ({ showSignup, setShowSignup, setShowLogin }) =>
                 }
             });
         }
-
         if (regexPassword.test(password)) {
             setValErr(prevInput => {
                 return {
@@ -117,7 +116,6 @@ const Signup: React.FC<Props> = ({ showSignup, setShowSignup, setShowLogin }) =>
                 }
             });
         }
-
         async function createUser() {
             const response = await fetch('http://localhost:3001/db/createUser', {
                 method: 'POST',
@@ -132,8 +130,8 @@ const Signup: React.FC<Props> = ({ showSignup, setShowSignup, setShowLogin }) =>
         // const regex2 = /[^((0-9)|(a-z)|(A-Z)|\s)]/
         if (!await checkIfUserExists() && !regexPassword.test(password) && regexEmail.test(email)) {
             console.log('This is sending');
-            const newUser = await createUser();
-            console.log(newUser);
+            const { result } = await createUser();
+            console.log(result);
         }
 
     }
