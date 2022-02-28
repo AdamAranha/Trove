@@ -57,9 +57,32 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
             }).then(r => r.json());
             return response;
         }
-
-        const { result } = await login();
-        console.log(result);
+        if (email === '') {
+            setValErr(prevInput => {
+                return {
+                    ...prevInput,
+                    emailErr: 'Username/Password incorrect'
+                }
+            })
+        }
+        if (password === '') {
+            setValErr(prevInput => {
+                return {
+                    ...prevInput,
+                    passErr: 'Username/Password incorrect'
+                }
+            })
+        }
+        if (email !== '' && password !== '') {
+            const { result } = await login();
+            if (!result) {
+                setValErr({
+                    emailErr: 'Username/Password Incorrect',
+                    passErr: 'Username/Password Incorrect'
+                });
+            }
+            console.log(result);
+        }
 
         // if (await checkIfUserExists()) { }
 
@@ -86,6 +109,13 @@ const Login: React.FC<Props> = ({ showLogin, setShowLogin, setShowSignup }) => {
                     <p className='h-1 mb-7 text-red-400'>{valErr.passErr}</p>
                 </form>
                 <button className='sticky b-0 w-full mb-2 bg-emerald-500 self-center hover:bg-emerald-600 text-slate-800  font-semibold rounded p-2' onClick={handleSubmit}>Log in</button>
+                <button className='sticky b-0 w-full mb-2 bg-emerald-500 self-center hover:bg-emerald-600 text-slate-800  font-semibold rounded p-2' onClick={async () => {
+                    const response = await fetch('http://localhost:3001/db/test', {
+                        method: 'GET',
+                        credentials: 'include'
+                    }).then(r => r.json());
+                    console.log(response);
+                }}>Validate</button>
                 <p className='text-center mb-6'>Don't have an account?<span className='cursor-pointer font-semibold text-emerald-400 hover:text-emerald-500' onClick={changePage}> Create an account</span></p>
             </div>
             : null

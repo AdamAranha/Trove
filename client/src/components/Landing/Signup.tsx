@@ -108,7 +108,7 @@ const Signup: React.FC<Props> = ({ showSignup, setShowSignup, setShowLogin }) =>
                 }
             });
         }
-        if (regexPassword.test(password)) {
+        if (regexPassword.test(password) || password === '') {
             setValErr(prevInput => {
                 return {
                     ...prevInput,
