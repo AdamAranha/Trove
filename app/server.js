@@ -7,6 +7,7 @@ require('dotenv').config();
 const User = require('./models/User');
 const sequelize = require('./util/dbConfig');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 // const connection = mysql.createConnection({
 //     host: process.env.HOST,
@@ -29,9 +30,10 @@ const bodyParser = require('body-parser');
 var access_token;
 
 app.use(cors({
-    origin: '*'
+    credentials: true,
+    origin: 'https://adamaranha.com'
 }));
-
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/db', require('./routes/db.js'));
 app.use('/reddit', require('./routes/reddit'));
